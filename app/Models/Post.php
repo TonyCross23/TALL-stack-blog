@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -49,8 +50,8 @@ class Post extends Model
         $query->where('featured', true);
     }
 
-    public function scopeWithCateogry ($query, string $category) {
-       $query-> whereHas('cateogries',function ($query) use($category) {
+    public function scopeWithCategory ($query, string $category) {
+       $query-> whereHas('categories',function ($query) use($category) {
             $query->where('slug',$category);
         });
     }
@@ -67,5 +68,10 @@ class Post extends Model
     public function getThumbnailImage () {
         $isUrl = str_contains($this->image,'http');
         return ($isUrl) ? $this->image : Storage::disk('public')->url($this->image);
+    }
+    
+    // like count
+    public function likes () {
+        return $this->belongsToMany(Post::class,'post_like')->withTimestamps();
     }
 }
