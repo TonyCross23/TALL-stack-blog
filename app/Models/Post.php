@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -73,5 +74,10 @@ class Post extends Model
     // like count
     public function likes () {
         return $this->belongsToMany(Post::class,'post_like')->withTimestamps();
+    }
+
+    // comment
+    public function comments () {
+        return $this->hasMany(Comment::class);
     }
 }

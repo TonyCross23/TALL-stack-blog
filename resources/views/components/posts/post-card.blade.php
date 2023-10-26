@@ -1,6 +1,6 @@
 @props(['post'])
 <div {{$attributes}}>
-    <a href="#">
+    <a href="{{ route('posts.show',$post->slug) }}">
         <div>
             <img class="w-full rounded-xl"
                 src="{{$post->getThumbnailImage()}}">

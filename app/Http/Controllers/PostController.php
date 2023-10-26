@@ -27,6 +27,7 @@ class PostController extends Controller
         );
     }
 
+    // show
     public function show(Post $post)
     {
         return view(
