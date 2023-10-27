@@ -57,6 +57,11 @@ class Post extends Model
         });
     }
 
+    public function scopePopular ($query ) {
+        $query->withCount('likes')
+                  ->orderBy('likes_count','desc');
+    }
+
     public function getExcerpt () {
         return Str::limit(strip_tags($this->body), 150);
     }

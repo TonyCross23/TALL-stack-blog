@@ -11,18 +11,16 @@ class PostController extends Controller
     public function index()
     {
 
-        // $categories = Cache::remember('categories', now()->addDays(3), function () {
-        //     return Category::whereHas('posts', function ($query) {
-        //         $query->published();
-        //     })->take(10)->get();
-        // });
+        $categories = Cache::remember('categories', now()->addDays(3), function () {
+            return Category::whereHas('posts', function ($query) {
+                $query->published();
+            })->take(10)->get();
+        });
 
         return view(
             'posts.index',
             [
-                'categories' => Category::whereHas('posts',function ($query) {
-                    $query->published();
-                })->take(10)->get(),
+                'categories' => $categories
             ]
         );
     }
